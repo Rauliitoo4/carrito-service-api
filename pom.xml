@@ -21,18 +21,35 @@
     </properties>
 
     <dependencies>
-        <!-- Anotaciones que genera el plugin -->
+        <!-- WebFlux: Mono, Flux, ServerWebExchange... -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
+        <!-- Anotaciones Swagger -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations.version}</version>
         </dependency>
+
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        <!-- Jakarta (Spring Boot 3.x usa Jakarta, no javax) -->
+
+        <!-- Jackson Nullable (para los modelos generados) -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+
+        <!-- Jakarta -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -60,20 +77,15 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/openapi.yaml</inputSpec>
-                            <!-- spring reactive para WebFlux -->
                             <generatorName>spring</generatorName>
                             <output>${project.build.directory}/generated-sources/openapi</output>
                             <apiPackage>com.tienda.carrito.api</apiPackage>
                             <modelPackage>com.tienda.carrito.model</modelPackage>
                             <configOptions>
-                                <!-- Genera interfaces, no implementaciones -->
                                 <interfaceOnly>true</interfaceOnly>
-                                <!-- WebFlux reactivo -->
                                 <reactive>true</reactive>
-                                <!-- Jakarta en lugar de javax -->
                                 <useJakartaEe>true</useJakartaEe>
                                 <useSpringBoot3>true</useSpringBoot3>
-                                <!-- Sin spring-boot-starter, solo el contrato -->
                                 <skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
                         </configuration>
